@@ -28,5 +28,5 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ matrix.config.python }}
+        tags: ghcr.io/geode-solutions/vtk:${{ matrix.config.python }}
         build-args: PYTHON_PATH=/opt/python/${{ matrix.config.tag }}
