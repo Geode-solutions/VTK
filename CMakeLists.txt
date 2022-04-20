@@ -26,7 +26,20 @@ project(VTK CXX)
 
 if(NOT DEFINED "ENV{PYTHON_PREFIX}")
     message(FATAL_ERROR "The `PYTHON_PREFIX` environment variable is required.")
-endif ()
+endif()
+
+if(NOT DEFINED "ENV{VTK_BACKEND}")
+    message(FATAL_ERROR "The `VTK_BACKEND` environment variable is required.")
+endif()
+
+if("$ENV{VTK_BACKEND}" MATCHES "gpu")
+  set(VTK_USE_X ON)
+  set(VTK_OPENGL_HAS_OSMESA OFF)
+elif("$ENV{VTK_BACKEND}" MATCHES "cpu")
+  set(VTK_USE_X OFF)
+  set(VTK_OPENGL_HAS_OSMESA ON)
+endif()
+
 
 include(ExternalProject)
 
@@ -49,6 +62,8 @@ ExternalProject_Add(vtk
         -DVTK_GROUP_ENABLE_Web:STRING=YES
         -DVTK_BUILD_TESTING:BOOL=OFF
         -DVTK_LEGACY_REMOVE:BOOL=ON
+        -DVTK_USE_X:BOOL=${VTK_USE_X}
+        -DVTK_OPENGL_HAS_OSMESA:BOOL=${VTK_OPENGL_HAS_OSMESA}
         -DPython3_FIND_STRATEGY:STRING=LOCATION
         -DPython3_EXECUTABLE:FILEPATH=$ENV{PYTHON_PREFIX}/bin/python
 )
