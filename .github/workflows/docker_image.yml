@@ -1,0 +1,32 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: "ghcr.io/geode-solutions/centos:master"
+    strategy:
+      matrix:
+        config:
+        - {python: "3.7", tag: "cp37-cp37m"}
+        - {python: "3.8", tag: "cp38-cp38"}
+        - {python: "3.9", tag: "cp39-cp39"}
+        - {python: "3.10", tag: "cp310-cp310"}
+    steps:
+    - uses: actions/checkout@v3
+    - name: GithubPackages Login
+      uses: docker/login-action@v1
+      with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: ${{ matrix.config.python }}
+        build-args: PYTHON_PATH=/opt/python/${{ matrix.config.tag }}
