@@ -4,6 +4,9 @@ FROM quay.io/pypa/manylinux2014_x86_64
 ARG PYTHON_PATH
 ENV PYTHON_PREFIX $PYTHON_PATH
 
+ARG BACKEND
+ENV VTK_BACKEND $BACKEND
+
 # Install.
 RUN \
   yum install -y epel-release && \
