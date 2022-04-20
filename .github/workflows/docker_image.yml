@@ -11,10 +11,14 @@ jobs:
     strategy:
       matrix:
         config:
-        - {python: "3.7", tag: "cp37-cp37m"}
-        - {python: "3.8", tag: "cp38-cp38"}
-        - {python: "3.9", tag: "cp39-cp39"}
-        - {python: "3.10", tag: "cp310-cp310"}
+        - {python: "3.7", tag: "cp37-cp37m", backend: "gpu"}
+        - {python: "3.8", tag: "cp38-cp38", backend: "gpu"}
+        - {python: "3.9", tag: "cp39-cp39", backend: "gpu"}
+        - {python: "3.10", tag: "cp310-cp310", backend: "gpu"}
+        - {python: "3.7", tag: "cp37-cp37m", backend: "cpu"}
+        - {python: "3.8", tag: "cp38-cp38", backend: "cpu"}
+        - {python: "3.9", tag: "cp39-cp39", backend: "cpu"}
+        - {python: "3.10", tag: "cp310-cp310", backend: "cpu"}
     steps:
     - uses: actions/checkout@v3
     - name: GithubPackages Login
@@ -29,4 +33,4 @@ jobs:
         context: .
         push: true
         tags: ghcr.io/geode-solutions/vtk:${{ matrix.config.python }}
-        build-args: PYTHON_PATH=/opt/python/${{ matrix.config.tag }}
+        build-args: PYTHON_PATH=/opt/python/${{ matrix.config.tag }} BACKEND=${{ matrix.config.backend }}
