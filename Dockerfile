@@ -18,7 +18,7 @@ WORKDIR /root
 
 COPY CMakeLists.txt .
 
-RUN cmake . && make -j
+RUN cmake .
 
 # Define default command.
 CMD ["bash"]
