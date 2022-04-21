@@ -53,8 +53,8 @@ elseif("$ENV{VTK_BACKEND}" MATCHES "cpu")
     ExternalProject_Add_Step(osmesa MESON_CONFIGURE
         DEPENDEES download 
         DEPENDERS configure
-        COMMAND meson ${PROJECT_BINARY_DIR}/osmesa/build \
-            -Dglx=disabled \
+        COMMAND meson ${PROJECT_BINARY_DIR}/osmesa/build
+            -Dglx=disabled
             -Ddri3=disabled -Degl=disabled -Dgallium-vdpau=disabled -Dgallium-xvmc=disabled -Dshared-glapi=disabled -Dosmesa=true -Dllvm=enabled -Dshared-llvm=enabled -Dgles1=disabled -Dgles2=disabled -Dgallium-drivers=swrast 
         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/osmesa/src/osmesa
     )
