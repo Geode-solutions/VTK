@@ -45,11 +45,14 @@ elseif("$ENV{VTK_BACKEND}" MATCHES "cpu")
         PREFIX ${PROJECT_BINARY_DIR}/osmesa
         GIT_REPOSITORY https://gitlab.freedesktop.org/mesa/mesa.git
         GIT_TAG 4a8d3189fdb81688c43c9b438c892a3423367c73
+        CONFIGURE_COMMAND ""
         BUILD_COMMAND meson compile
         INSTALL_COMMAND meson install
         BINARY_DIR ${PROJECT_BINARY_DIR}/osmesa/build
     )
-    ExternalProject_Add_Step(osmesa configure
+    ExternalProject_Add_Step(osmesa MESON_CONFIGURE
+        DEPENDEES download 
+        DEPENDERS configure
         COMMAND meson configure build
         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/osmesa
     )
