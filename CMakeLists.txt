@@ -59,7 +59,7 @@ elseif("$ENV{VTK_BACKEND}" MATCHES "cpu")
             -Dgallium-va=disabled 
             -Dgallium-xa=disabled 
             -Dgallium-nine=false 
-            -Dshared-opencl=disabled
+            -Dgallium-opencl=disabled
             -Dbuild-tests=false
             -Dosmesa=true 
             -Dopengl=true
