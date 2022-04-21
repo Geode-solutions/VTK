@@ -45,18 +45,33 @@ elseif("$ENV{VTK_BACKEND}" MATCHES "cpu")
         PREFIX ${PROJECT_BINARY_DIR}/osmesa
         GIT_REPOSITORY https://gitlab.freedesktop.org/mesa/mesa.git
         GIT_TAG 4a8d3189fdb81688c43c9b438c892a3423367c73
-        CONFIGURE_COMMAND ""
+        CONFIGURE_COMMAND meson ${PROJECT_BINARY_DIR}/osmesa/src/osmesa
+            --buildtype=release 
+            -Dglx=disabled
+            -Dvulkan-drivers=
+            -Ddri3=disabled 
+            -Dgbm=disabled
+            -Degl=disabled
+            -Dplatforms=
+            -Dgallium-vdpau=disabled 
+            -Dgallium-xvmc=disabled 
+            -Dgallium-omx=disabled 
+            -Dgallium-va=disabled 
+            -Dgallium-xa=disabled 
+            -Dgallium-nine=false 
+            -Dshared-opencl=disabled
+            -Dbuild-tests=false
+            -Dosmesa=true 
+            -Dopengl=true
+            -Dglvnd=false
+            -Dllvm=enabled 
+            -Dshared-llvm=enabled 
+            -Dgles1=disabled 
+            -Dgles2=disabled 
+            -Dgallium-drivers=swrast,swr 
         BUILD_COMMAND meson compile
         INSTALL_COMMAND meson install
         BINARY_DIR ${PROJECT_BINARY_DIR}/osmesa/build
-    )
-    ExternalProject_Add_Step(osmesa MESON_CONFIGURE
-        DEPENDEES download 
-        DEPENDERS configure
-        COMMAND meson ${PROJECT_BINARY_DIR}/osmesa/build
-            -Dglx=disabled
-            -Ddri3=disabled -Degl=disabled -Dgallium-vdpau=disabled -Dgallium-xvmc=disabled -Dshared-glapi=disabled -Dosmesa=true -Dllvm=enabled -Dshared-llvm=enabled -Dgles1=disabled -Dgles2=disabled -Dgallium-drivers=swrast 
-        WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/osmesa/src/osmesa
     )
 endif()
 
