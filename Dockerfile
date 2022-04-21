@@ -11,7 +11,7 @@ ENV VTK_BACKEND $BACKEND
 RUN \
   yum install -y epel-release && \
   yum update -y && \
-  yum install -y cmake libX11-devel libXcursor-devel mesa-libGL-devel mesa-libGLU-devel git-core git-lfs gcc-c++ llvm-devel ninja-build python3-pip && \
+  yum install -y cmake libX11-devel libXcursor-devel mesa-libGL-devel mesa-libGLU-devel libdrm git-core git-lfs gcc-c++ llvm-devel ninja-build python3-pip && \
   pip3 install meson mako
 
 # Set environment variables.
