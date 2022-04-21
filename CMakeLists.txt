@@ -53,7 +53,7 @@ elseif("$ENV{VTK_BACKEND}" MATCHES "cpu")
     ExternalProject_Add_Step(osmesa MESON_CONFIGURE
         DEPENDEES download 
         DEPENDERS configure
-        COMMAND meson configure build
+        COMMAND meson build
         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/osmesa
     )
 endif()
