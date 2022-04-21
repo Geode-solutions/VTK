@@ -48,12 +48,12 @@ elseif("$ENV{VTK_BACKEND}" MATCHES "cpu")
         CONFIGURE_COMMAND ""
         BUILD_COMMAND meson compile
         INSTALL_COMMAND meson install
-        BINARY_DIR ${PROJECT_BINARY_DIR}/osmesa/build
+        BINARY_DIR ${PROJECT_BINARY_DIR}/osmesa/builddir
     )
     ExternalProject_Add_Step(osmesa MESON_CONFIGURE
         DEPENDEES download 
         DEPENDERS configure
-        COMMAND meson build
+        COMMAND meson builddir
         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/osmesa
     )
 endif()
