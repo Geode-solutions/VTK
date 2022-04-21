@@ -68,7 +68,7 @@ elseif("$ENV{VTK_BACKEND}" MATCHES "cpu")
             -Dshared-llvm=enabled 
             -Dgles1=disabled 
             -Dgles2=disabled 
-            -Dgallium-drivers=swrast,swr 
+            -Dgallium-drivers=swrast
         BUILD_COMMAND meson compile
         INSTALL_COMMAND meson install
         BINARY_DIR ${PROJECT_BINARY_DIR}/osmesa/build
