@@ -32,16 +32,26 @@ if(NOT DEFINED "ENV{VTK_BACKEND}")
     message(FATAL_ERROR "The `VTK_BACKEND` environment variable is required.")
 endif()
 
-if("$ENV{VTK_BACKEND}" MATCHES "gpu")
-  set(VTK_USE_X ON)
-  set(VTK_OPENGL_HAS_OSMESA OFF)
-elseif("$ENV{VTK_BACKEND}" MATCHES "cpu")
-  set(VTK_USE_X OFF)
-  set(VTK_OPENGL_HAS_OSMESA ON)
-endif()
-
-
 include(ExternalProject)
+
+if("$ENV{VTK_BACKEND}" MATCHES "gpu")
+    set(VTK_USE_X ON)
+    set(VTK_OPENGL_HAS_OSMESA OFF)
+elseif("$ENV{VTK_BACKEND}" MATCHES "cpu")
+    set(VTK_USE_X OFF)
+    set(VTK_OPENGL_HAS_OSMESA ON)
+    set(DEPENDENCIES osmesa)
+    ExternalProject_Add(osmesa
+        PREFIX ${PROJECT_BINARY_DIR}/osmesa
+        GIT_REPOSITORY https://gitlab.freedesktop.org/mesa/mesa.git
+        GIT_TAG 4a8d3189fdb81688c43c9b438c892a3423367c73
+        CONFIGURE_COMMAND cd ${PROJECT_BINARY_DIR}/osmesa
+        COMMAND meson configure ${PROJECT_BINARY_DIR}/osmesa/build
+        BUILD_COMMAND meson compile
+        INSTALL_COMMAND meson install
+        BINARY_DIR ${PROJECT_BINARY_DIR}/osmesa/build
+    )
+endif()
 
 ExternalProject_Add(vtk
     PREFIX ${PROJECT_BINARY_DIR}/vtk
@@ -66,4 +76,6 @@ ExternalProject_Add(vtk
         -DVTK_OPENGL_HAS_OSMESA:BOOL=${VTK_OPENGL_HAS_OSMESA}
         -DPython3_FIND_STRATEGY:STRING=LOCATION
         -DPython3_EXECUTABLE:FILEPATH=$ENV{PYTHON_PREFIX}/bin/python
+    BINARY_DIR ${PROJECT_BINARY_DIR}/vtk/build
+    DEPENDS ${DEPENDENCIES}
 )
