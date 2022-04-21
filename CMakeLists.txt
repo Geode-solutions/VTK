@@ -54,7 +54,7 @@ elseif("$ENV{VTK_BACKEND}" MATCHES "cpu")
         DEPENDEES download 
         DEPENDERS configure
         COMMAND meson ${PROJECT_BINARY_DIR}/osmesa/build
-        WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/osmesa/src/mesa
+        WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/osmesa/src/osmesa
     )
 endif()
 
