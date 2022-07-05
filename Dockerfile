@@ -4,6 +4,8 @@ FROM quay.io/pypa/manylinux2014_x86_64
 ARG PYTHON_PATH
 ENV PYTHON_PREFIX $PYTHON_PATH
 
+ENV PATH="$PYTHON_PATH/bin:${PATH}"
+
 ARG BACKEND
 ENV VTK_BACKEND $BACKEND
 
@@ -23,8 +25,6 @@ WORKDIR /root
 COPY CMakeLists.txt .
 
 RUN cmake . && make
-
-ENV PATH="$PYTHON_PATH/bin:${PATH}"
 
 # Define default command.
 CMD ["bash"]
