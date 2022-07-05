@@ -25,6 +25,7 @@ COPY CMakeLists.txt .
 RUN cmake . && make
 
 ENV PATH="$PYTHON_PATH/bin:${PATH}"
+ENV PYTHONPATH="/usr/local:$PYTHONPATH"
 
 # Define default command.
 CMD ["bash"]
