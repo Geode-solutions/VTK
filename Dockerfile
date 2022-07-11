@@ -12,7 +12,7 @@ RUN \
   yum install -y epel-release && \
   yum update -y && \
   yum install -y cmake libX11-devel libXcursor-devel mesa-libGL-devel mesa-libGLU-devel libdrm git-core git-lfs gcc-c++ llvm13-devel flex ninja-build python3-pip && \
-  pip3 install meson mako
+  pip3 install meson mako && \
   mkdir /root/vtk
 
 # Set environment variables.
