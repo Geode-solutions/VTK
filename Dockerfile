@@ -9,7 +9,7 @@ ENV VTK_BACKEND $BACKEND
 RUN \
   apt update -y && \
   apt install -y cmake build-essential git llvm llvm-dev flex ninja-build bison && \
-  pip3 install -y meson mako && \
+  pip3 install meson mako && \
   mkdir /root/vtk
 
 # Set environment variables.
