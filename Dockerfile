@@ -22,12 +22,14 @@ COPY CMakeLists.txt .
 
 RUN \
   cmake . && \
-  make && \
-  rm -rf /root/vtk && \
+  make -j 2 && \
+  cd /root && rm -rf vtk && \
   pip3 uninstall meson mako && \
-  apt purge cmake build-essential git llvm-dev flex ninja-build && \
-  apt autoremove && \
-  apt autoclean
+  apt purge -y cmake build-essential git llvm-dev flex ninja-build && \
+  apt -y autoremove && \
+  apt -y autoclean
+
+ENV PYTHONPATH="/usr/local:$PYTHONPATH"
 
 # Define default command.
 CMD ["bash"]
