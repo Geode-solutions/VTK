@@ -24,7 +24,7 @@ RUN \
   cmake . && \
   make -j 2 && \
   cd /root && rm -rf vtk && \
-  pip3 uninstall meson mako && \
+  pip3 uninstall -y meson mako && \
   apt purge -y cmake build-essential git llvm-dev flex ninja-build && \
   apt -y autoremove && \
   apt -y autoclean
