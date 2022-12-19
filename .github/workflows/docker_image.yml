@@ -7,18 +7,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: "ghcr.io/geode-solutions/centos:master"
     strategy:
       matrix:
-        config:
-        - {python: "3.7", tag: "cp37-cp37m", backend: "gpu"}
-        - {python: "3.8", tag: "cp38-cp38", backend: "gpu"}
-        - {python: "3.9", tag: "cp39-cp39", backend: "gpu"}
-        - {python: "3.10", tag: "cp310-cp310", backend: "gpu"}
-        - {python: "3.7", tag: "cp37-cp37m", backend: "cpu"}
-        - {python: "3.8", tag: "cp38-cp38", backend: "cpu"}
-        - {python: "3.9", tag: "cp39-cp39", backend: "cpu"}
-        - {python: "3.10", tag: "cp310-cp310", backend: "cpu"}
+        python: ["3.7", "3.8", "3.9", "3.10"]
+        backend: ["cpu"]
     steps:
     - uses: actions/checkout@v3
     - name: GithubPackages Login
@@ -32,7 +24,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: ghcr.io/geode-solutions/vtk:${{ matrix.config.python }}-${{ matrix.config.backend }}
+        tags: ghcr.io/geode-solutions/vtk:${{ matrix.python }}-${{ matrix.backend }}
         build-args: |
-          PYTHON_PATH=/opt/python/${{ matrix.config.tag }} 
-          BACKEND=${{ matrix.config.backend }}
+          PYTHON_VERSION=${{ matrix.python }} 
+          BACKEND=${{ matrix.backend }}

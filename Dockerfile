@@ -1,17 +1,14 @@
 # Pull base image.
-FROM quay.io/pypa/manylinux2014_x86_64
-
-ARG PYTHON_PATH
-ENV PYTHON_PREFIX $PYTHON_PATH
+ARG PYTHON_VERSION 
+FROM python:$PYTHON_VERSION-slim
 
 ARG BACKEND
 ENV VTK_BACKEND $BACKEND
 
 # Install.
 RUN \
-  yum install -y epel-release && \
-  yum update -y && \
-  yum install -y cmake libX11-devel libXcursor-devel mesa-libGL-devel mesa-libGLU-devel libdrm git-core git-lfs gcc-c++ llvm13-devel flex ninja-build python3-pip && \
+  apt update -y && \
+  apt install -y cmake build-essential git llvm llvm-dev flex ninja-build bison && \
   pip3 install meson mako && \
   mkdir /root/vtk
 
@@ -23,10 +20,14 @@ WORKDIR /root/vtk
 
 COPY CMakeLists.txt .
 
-RUN cmake . && make && rm -rf /root/vtk
-
-ENV PATH="$PYTHON_PATH/bin:${PATH}"
-ENV PYTHONPATH="/usr/local:$PYTHONPATH"
+RUN \
+  cmake . && \
+  make && \
+  rm -rf /root/vtk && \
+  pip3 uninstall meson mako && \
+  apt purge cmake build-essential git llvm-dev flex ninja-build && \
+  apt autoremove && \
+  apt autoclean
 
 # Define default command.
 CMD ["bash"]

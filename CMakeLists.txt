@@ -18,19 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.13)
 
 #-------------------------------------------------------------------------------
 # Project options
 project(VTK CXX)
-
-if(NOT DEFINED "ENV{PYTHON_PREFIX}")
-    message(FATAL_ERROR "The `PYTHON_PREFIX` environment variable is required.")
-endif()
-
-if(NOT DEFINED "ENV{VTK_BACKEND}")
-    message(FATAL_ERROR "The `VTK_BACKEND` environment variable is required.")
-endif()
 
 include(ExternalProject)
 
@@ -44,7 +36,7 @@ elseif("$ENV{VTK_BACKEND}" MATCHES "cpu")
     ExternalProject_Add(osmesa
         PREFIX ${PROJECT_BINARY_DIR}/osmesa
         GIT_REPOSITORY https://gitlab.freedesktop.org/mesa/mesa.git
-        GIT_TAG 4a8d3189fdb81688c43c9b438c892a3423367c73
+        GIT_TAG 9bb1d8ab19cf99f6549c4ae243399e1c6aea10bc
         CONFIGURE_COMMAND meson ${PROJECT_BINARY_DIR}/osmesa/src/osmesa
             --buildtype=release 
             -Dglx=disabled
@@ -54,7 +46,6 @@ elseif("$ENV{VTK_BACKEND}" MATCHES "cpu")
             -Degl=disabled
             -Dplatforms=
             -Dgallium-vdpau=disabled 
-            -Dgallium-xvmc=disabled 
             -Dgallium-omx=disabled 
             -Dgallium-va=disabled 
             -Dgallium-xa=disabled 
@@ -85,7 +76,7 @@ ExternalProject_Add(vtk
         -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
         -DCMAKE_INSTALL_MESSAGE=LAZY
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-        -DCMAKE_PREFIX_PATH=$ENV{PYTHON_PREFIX}
+        # -DCMAKE_PREFIX_PATH=$ENV{PYTHON_PREFIX}
         -DCMAKE_BUILD_TYPE=Release
     CMAKE_CACHE_ARGS
         -DVTK_WRAP_PYTHON:BOOL=ON
@@ -96,8 +87,8 @@ ExternalProject_Add(vtk
         -DVTK_LEGACY_REMOVE:BOOL=ON
         -DVTK_USE_X:BOOL=${VTK_USE_X}
         -DVTK_OPENGL_HAS_OSMESA:BOOL=${VTK_OPENGL_HAS_OSMESA}
-        -DPython3_FIND_STRATEGY:STRING=LOCATION
-        -DPython3_EXECUTABLE:FILEPATH=$ENV{PYTHON_PREFIX}/bin/python
+        # -DPython3_FIND_STRATEGY:STRING=LOCATION
+        # -DPython3_EXECUTABLE:FILEPATH=$ENV{PYTHON_PREFIX}/bin/python
     BINARY_DIR ${PROJECT_BINARY_DIR}/vtk/build
     DEPENDS ${DEPENDENCIES}
 )
