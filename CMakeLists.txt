@@ -68,8 +68,8 @@ endif()
 
 ExternalProject_Add(vtk
     PREFIX ${PROJECT_BINARY_DIR}/vtk
-    URL https://www.vtk.org/files/release/9.1/VTK-9.1.0.tar.gz
-    URL_HASH SHA256=8fed42f4f8f1eb8083107b68eaa9ad71da07110161a3116ad807f43e5ca5ce96
+    URL https://www.vtk.org/files/release/9.3/VTK-9.3.0.rc1.tar.gz
+    URL_HASH SHA256=6581cec8e1c7a0290d1be0177eb84e2e7c3cb84d1ed154c7f1b57d227b7a7616
     CMAKE_GENERATOR ${CMAKE_GENERATOR}
     CMAKE_GENERATOR_PLATFORM ${CMAKE_GENERATOR_PLATFORM}
     CMAKE_ARGS
